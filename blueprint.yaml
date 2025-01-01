@@ -1,0 +1,29 @@
+blueprint:
+  name: ZHA - TS0041 Scene Switch
+  description: Automate your Tuya 1-Button Scene Switch using ZHA events.
+  domain: automation
+  input:
+    tuya_1button_scene_switch:
+      name: TS0041 Switch
+      description: Tuya 1-Button Scene Switch to use
+      selector:
+        device:
+          integration: zha
+          manufacturer: _TZ3000_mrpevh8p
+          model: TS0041
+    button_short_press:
+      name: Short Press
+      description: Action to run on a short Press
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input 'tuya_1button_scene_switch'
+    command: remote_button_short_press
+action:
+  sequence: !input 'button_short_press'
